@@ -348,7 +348,7 @@ export default function ContributorProfilePage() {
               </p>
 
               {/* Message button */}
-              <button
+                <button
                 style={{
                   width: '100%',
                   padding: '0.75rem',
@@ -376,6 +376,7 @@ export default function ContributorProfilePage() {
                 <MessageSquare size={16} />
                 Message
               </button>
+
             </div>
 
             {/* ══════════════════════════════════════════════

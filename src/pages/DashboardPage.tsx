@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import TrustLevelWidget from '../components/dashboard/TrustLevelWidget'
 import ProjectCard from '../components/projects/ProjectCard'
 
@@ -5,15 +6,33 @@ export default function DashboardPage() {
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
-      <h1 style={{
-        color: 'var(--text-primary)',
-        fontFamily: 'var(--font-display)',
-        fontSize: '24px',
-        fontWeight: 600,
-        marginBottom: '24px'
+      {/* Functional header */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '24px',
       }}>
-        Welcome back 👋
-      </h1>
+        <div>
+          <p style={{
+            color: 'var(--text-primary)',
+            fontFamily: 'var(--font-display)',
+            fontSize: '14px',
+            fontWeight: 600,
+            margin: 0,
+          }}>
+            3 projects need your trust level
+          </p>
+          <p style={{
+            color: 'var(--text-secondary)',
+            fontFamily: 'var(--font-display)',
+            fontSize: '12px',
+            margin: '3px 0 0 0',
+          }}>
+            Tuesday, July 2
+          </p>
+        </div>
+      </div>
 
       <div style={{
         display: 'grid',
@@ -28,7 +47,7 @@ export default function DashboardPage() {
           levelName="Emerging"
         />
 
-        {/* Top Matches panel with 2 sample cards */}
+        {/* Top Matches panel */}
         <div style={{
           backgroundColor: 'var(--bg-surface)',
           border: '1px solid var(--border-subtle)',
@@ -48,11 +67,12 @@ export default function DashboardPage() {
             }}>
               Your Top Matches
             </h2>
-            <a href="/matches" style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-display)', fontSize: '13px' }}>
+            <Link to="/projects" style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-display)', fontSize: '13px', textDecoration: 'none' }}>
               See all →
-            </a>
+            </Link>
           </div>
 
+          {/* Eligible (unlocked) card — full detail */}
           <ProjectCard
             id="1"
             name="TypeScript Utility Library"
@@ -61,8 +81,10 @@ export default function DashboardPage() {
             matchScore={85}
             minTrustLevel={1}
             openIssues={12}
+            isLocked={false}
           />
 
+          {/* Locked card — collapsed, quieter */}
           <ProjectCard
             id="2"
             name="Go gRPC Framework"
@@ -71,6 +93,7 @@ export default function DashboardPage() {
             matchScore={62}
             minTrustLevel={2}
             openIssues={7}
+            isLocked={true}
           />
 
         </div>

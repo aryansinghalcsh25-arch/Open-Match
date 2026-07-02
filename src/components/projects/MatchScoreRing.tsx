@@ -1,83 +1,71 @@
-// Circular SVG progress ring showing a match score 0-100%
-// Color changes based on score: red < 50, amber 50-70, green > 70
+// Horizontal match score display — bold percentage + colored dot + mini bar
+// Replaces the circular SVG ring which was extremely common in generated dashboards
 
 interface Props {
   score: number           // 0 to 100
-  size?: 'sm' | 'md' | 'lg'  // small, medium, large
+  size?: 'sm' | 'md' | 'lg'
 }
 
-// Size values in pixels
-const sizes = {
-  sm: 36,
-  md: 48,
-  lg: 80,
-}
-
-// Font sizes for the number inside the ring
 const fontSizes = {
-  sm: '10px',
-  md: '13px',
-  lg: '20px',
+  sm: '14px',
+  md: '18px',
+  lg: '26px',
+}
+
+const barWidths = {
+  sm: '60px',
+  md: '80px',
+  lg: '120px',
 }
 
 export default function MatchScoreRing({ score, size = 'md' }: Props) {
-  const diameter = sizes[size]
-  const radius = (diameter - 8) / 2   // 8 = stroke width on both sides
-  const circumference = 2 * Math.PI * radius
-  // How much of the circle to fill based on score
-  const fillAmount = circumference - (score / 100) * circumference
-
-  // Pick color based on score
-  let color = 'var(--match-high)'     // green > 70
-  if (score < 50) color = 'var(--match-low)'      // red
-  else if (score < 70) color = 'var(--match-medium)' // amber
+  let color = 'var(--match-high)'
+  if (score < 50) color = 'var(--match-low)'
+  else if (score < 70) color = 'var(--match-medium)'
 
   return (
-    <div style={{ position: 'relative', width: diameter, height: diameter, flexShrink: 0 }}>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      flexShrink: 0,
+    }}>
+      {/* Colored dot */}
+      <span style={{
+        width: size === 'sm' ? '8px' : size === 'md' ? '10px' : '14px',
+        height: size === 'sm' ? '8px' : size === 'md' ? '10px' : '14px',
+        borderRadius: '50%',
+        backgroundColor: color,
+        flexShrink: 0,
+      }} />
 
-      {/* The SVG ring */}
-      <svg width={diameter} height={diameter} style={{ transform: 'rotate(-90deg)' }}>
-        {/* Background track (gray circle) */}
-        <circle
-          cx={diameter / 2}
-          cy={diameter / 2}
-          r={radius}
-          fill="none"
-          stroke="var(--border-default)"
-          strokeWidth={5}
-        />
-        {/* Colored progress arc */}
-        <circle
-          cx={diameter / 2}
-          cy={diameter / 2}
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth={5}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={fillAmount}
-          style={{ transition: 'stroke-dashoffset 800ms ease' }}
-        />
-      </svg>
-
-      {/* Score number in center */}
-      <div style={{
-        position: 'absolute',
-        top: 0, left: 0,
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+      {/* Bold percentage */}
+      <span style={{
         fontFamily: 'var(--font-mono)',
         fontSize: fontSizes[size],
         fontWeight: 700,
-        color: color
+        color: color,
+        lineHeight: 1,
       }}>
         {score}%
-      </div>
+      </span>
 
+      {/* Mini horizontal bar */}
+      <div style={{
+        width: barWidths[size],
+        height: size === 'sm' ? '4px' : size === 'md' ? '5px' : '7px',
+        backgroundColor: 'var(--bg-elevated)',
+        borderRadius: 'var(--radius-full)',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          height: '100%',
+          width: `${score}%`,
+          backgroundColor: color,
+          borderRadius: 'var(--radius-full)',
+          transition: 'width 600ms ease',
+        }} />
+      </div>
     </div>
   )
 }
