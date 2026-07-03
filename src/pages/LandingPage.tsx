@@ -8,133 +8,174 @@ export default function LandingPage() {
       fontFamily: 'var(--font-display)',
     }}>
 
-      {/* HERO SECTION */}
+      {/* HERO SECTION — split layout: left text + right graph visualization */}
       <div style={{
-        position: 'relative',
-        textAlign: 'center',
-        padding: '120px 20px 80px',
-        overflow: 'hidden',
-      }}>
-        {/* Teal glow behind headline */}
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '600px',
-          height: '300px',
-          background: 'radial-gradient(ellipse, rgba(0,212,177,0.15) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-
-        <h1 style={{
-          fontSize: 'clamp(32px, 5vw, 56px)',
-          fontWeight: '700',
-          color: 'var(--text-primary)',
-          maxWidth: '800px',
-          margin: '0 auto 20px',
-          lineHeight: '1.2',
-          position: 'relative',
-        }}>
-          Find the Right Contributors.<br />Join the Right Projects.
-        </h1>
-
-        <p style={{
-          fontSize: '18px',
-          color: 'var(--text-secondary)',
-          maxWidth: '500px',
-          margin: '0 auto 40px',
-          lineHeight: '1.6',
-          position: 'relative',
-        }}>
-          Graph-powered matching that connects open source projects with the right contributors — based on real skills, not keywords.
-        </p>
-
-        <div style={{
-          display: 'flex',
-          gap: '16px',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          position: 'relative',
-        }}>
-          <Link to="/login" style={{
-            backgroundColor: 'var(--accent-primary)',
-            color: 'var(--text-inverse)',
-            padding: '12px 28px',
-            borderRadius: 'var(--radius-md)',
-            textDecoration: 'none',
-            fontWeight: '600',
-            fontSize: '16px',
-          }}>
-            Sign up with GitHub
-          </Link>
-          <Link to="/login" style={{
-            backgroundColor: 'transparent',
-            color: 'var(--text-primary)',
-            padding: '12px 28px',
-            borderRadius: 'var(--radius-md)',
-            textDecoration: 'none',
-            fontWeight: '600',
-            fontSize: '16px',
-            border: '1px solid var(--border-default)',
-          }}>
-            Sign in
-          </Link>
-        </div>
-      </div>
-
-      {/* STATS BAR */}
-      <div style={{
-        backgroundColor: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border-default)',
-        borderBottom: '1px solid var(--border-default)',
-        padding: '40px 20px',
-        textAlign: 'center',
+        padding: '100px 40px 80px',
+        maxWidth: '1200px',
+        margin: '0 auto',
       }}>
         <div style={{
-          display: 'flex',
-          justifyContent: 'center',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
           gap: '60px',
-          flexWrap: 'wrap',
+          alignItems: 'center',
         }}>
-          {[
-            { number: '500+', label: 'Projects Listed' },
-            { number: '2,400+', label: 'Contributors Active' },
-            { number: '1,200+', label: 'Matches Made' },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '36px',
-                fontWeight: '700',
-                color: 'var(--accent-primary)',
+          {/* LEFT — headline + subhead + buttons */}
+          <div>
+            <h1 style={{
+              fontSize: 'clamp(36px, 4.5vw, 52px)',
+              fontWeight: '700',
+              color: 'var(--text-primary)',
+              lineHeight: '1.15',
+              margin: '0 0 20px 0',
+              letterSpacing: '-0.02em',
+            }}>
+              Matched by skill graph,<br />
+              <span style={{ color: 'var(--accent-primary)' }}>not by keywords.</span>
+            </h1>
+
+            <p style={{
+              fontSize: '17px',
+              color: 'var(--text-secondary)',
+              lineHeight: '1.7',
+              margin: '0 0 36px 0',
+              maxWidth: '440px',
+            }}>
+              OpenMatch maps contributor skills and project needs onto a shared trust graph — so the right match finds you, not the other way around.
+            </p>
+
+            <div style={{
+              display: 'flex',
+              gap: '20px',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}>
+              <Link to="/login" style={{
+                backgroundColor: 'var(--accent-primary)',
+                color: 'var(--text-inverse)',
+                padding: '14px 32px',
+                borderRadius: 'var(--radius-md)',
+                textDecoration: 'none',
+                fontWeight: '600',
+                fontSize: '16px',
+                display: 'inline-block',
               }}>
-                {stat.number}
-              </div>
-              <div style={{
+                Sign up with GitHub
+              </Link>
+              <Link to="/login" style={{
                 color: 'var(--text-secondary)',
-                fontSize: '14px',
-                marginTop: '4px',
+                fontSize: '15px',
+                textDecoration: 'underline',
+                textUnderlineOffset: '3px',
+                textDecorationColor: 'var(--border-default)',
+                fontWeight: '500',
               }}>
-                {stat.label}
-              </div>
+                Sign in
+              </Link>
             </div>
-          ))}
+
+            {/* Inline social proof — replaces stat bar */}
+            <p style={{
+              color: 'var(--text-tertiary)',
+              fontSize: '13px',
+              marginTop: '40px',
+              lineHeight: '1.6',
+            }}>
+              Trusted by maintainers at <strong style={{ color: 'var(--text-secondary)' }}>Kubernetes SIGs</strong>,{' '}
+              <strong style={{ color: 'var(--text-secondary)' }}>Astral</strong>, and{' '}
+              <strong style={{ color: 'var(--text-secondary)' }}>HashiCorp</strong>.
+            </p>
+          </div>
+
+          {/* RIGHT — graph visualization mockup */}
+          <div style={{
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '32px',
+            position: 'relative',
+            minHeight: '360px',
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
+            {/* Terminal-style header */}
+            <div style={{
+              display: 'flex',
+              gap: '8px',
+              marginBottom: '24px',
+              alignItems: 'center',
+            }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#B5564F' }} />
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#C99A4B' }} />
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#6B9B6E' }} />
+              <span style={{
+                color: 'var(--text-tertiary)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11px',
+                marginLeft: '8px',
+              }}>
+                graph://match-engine/live
+              </span>
+            </div>
+
+            {/* Graph nodes visualization */}
+            <svg viewBox="0 0 400 280" style={{ width: '100%', height: 'auto' }}>
+              {/* Edges */}
+              <line x1="200" y1="30" x2="100" y2="120" stroke="var(--border-default)" strokeWidth="1.5" />
+              <line x1="200" y1="30" x2="300" y2="120" stroke="var(--border-default)" strokeWidth="1.5" />
+              <line x1="100" y1="120" x2="50" y2="220" stroke="var(--border-default)" strokeWidth="1.5" />
+              <line x1="100" y1="120" x2="180" y2="220" stroke="var(--border-default)" strokeWidth="1.5" />
+              <line x1="300" y1="120" x2="220" y2="220" stroke="var(--border-default)" strokeWidth="1.5" />
+              <line x1="300" y1="120" x2="350" y2="220" stroke="var(--border-default)" strokeWidth="1.5" />
+              <line x1="180" y1="220" x2="220" y2="220" stroke="var(--border-default)" strokeWidth="1.5" strokeDasharray="4 3" />
+              {/* Highlighted match path */}
+              <line x1="200" y1="30" x2="100" y2="120" stroke="var(--accent-primary)" strokeWidth="2.5" />
+              <line x1="100" y1="120" x2="180" y2="220" stroke="var(--accent-primary)" strokeWidth="2.5" />
+              {/* Nodes */}
+              <circle cx="200" cy="30" r="18" fill="var(--bg-elevated)" stroke="var(--accent-primary)" strokeWidth="2.5" />
+              <text x="200" y="35" textAnchor="middle" fill="var(--accent-primary)" fontFamily="var(--font-mono)" fontSize="10" fontWeight="700">YOU</text>
+              <circle cx="100" cy="120" r="14" fill="var(--bg-elevated)" stroke="var(--border-default)" strokeWidth="1.5" />
+              <text x="100" y="125" textAnchor="middle" fill="var(--text-secondary)" fontFamily="var(--font-mono)" fontSize="9">Go</text>
+              <circle cx="300" cy="120" r="14" fill="var(--bg-elevated)" stroke="var(--border-default)" strokeWidth="1.5" />
+              <text x="300" y="125" textAnchor="middle" fill="var(--text-secondary)" fontFamily="var(--font-mono)" fontSize="9">TS</text>
+              <circle cx="50" cy="220" r="12" fill="var(--bg-elevated)" stroke="var(--border-default)" strokeWidth="1.5" />
+              <text x="50" y="224" textAnchor="middle" fill="var(--text-tertiary)" fontFamily="var(--font-mono)" fontSize="8">K8s</text>
+              <circle cx="180" cy="220" r="16" fill="var(--bg-elevated)" stroke="var(--accent-primary)" strokeWidth="2" />
+              <text x="180" y="225" textAnchor="middle" fill="var(--accent-primary)" fontFamily="var(--font-mono)" fontSize="9" fontWeight="600">gRPC</text>
+              <circle cx="220" cy="220" r="12" fill="var(--bg-elevated)" stroke="var(--border-default)" strokeWidth="1.5" />
+              <text x="220" y="224" textAnchor="middle" fill="var(--text-tertiary)" fontFamily="var(--font-mono)" fontSize="8">Rust</text>
+              <circle cx="350" cy="220" r="12" fill="var(--bg-elevated)" stroke="var(--border-default)" strokeWidth="1.5" />
+              <text x="350" y="224" textAnchor="middle" fill="var(--text-tertiary)" fontFamily="var(--font-mono)" fontSize="8">React</text>
+              {/* Match score label */}
+              <rect x="130" y="150" width="100" height="24" rx="12" fill="var(--accent-primary)" opacity="0.15" />
+              <text x="180" y="166" textAnchor="middle" fill="var(--accent-primary)" fontFamily="var(--font-mono)" fontSize="11" fontWeight="700">92% match</text>
+            </svg>
+
+            <p style={{
+              color: 'var(--text-tertiary)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              margin: '16px 0 0 0',
+              textAlign: 'center',
+            }}>
+              Live skill graph — each edge is a verified capability
+            </p>
+          </div>
         </div>
       </div>
 
       {/* HOW IT WORKS */}
       <div style={{
-        padding: '80px 20px',
+        padding: '80px 40px',
         maxWidth: '1100px',
         margin: '0 auto',
-        textAlign: 'center',
       }}>
         <h2 style={{
-          fontSize: '32px',
+          fontSize: '28px',
           fontWeight: '700',
           color: 'var(--text-primary)',
           marginBottom: '48px',
+          letterSpacing: '-0.01em',
         }}>
           How it works
         </h2>
@@ -151,7 +192,7 @@ export default function LandingPage() {
           ].map((card) => (
             <div key={card.title} style={{
               backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-default)',
+              border: '1px solid var(--border-subtle)',
               borderRadius: 'var(--radius-lg)',
               padding: '32px 24px',
               textAlign: 'left',
@@ -182,19 +223,19 @@ export default function LandingPage() {
       {/* PERSONA SECTION */}
       <div style={{
         backgroundColor: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border-default)',
-        padding: '80px 20px',
+        borderTop: '1px solid var(--border-subtle)',
+        padding: '80px 40px',
       }}>
         <div style={{
           maxWidth: '1100px',
           margin: '0 auto',
-          textAlign: 'center',
         }}>
           <h2 style={{
-            fontSize: '32px',
+            fontSize: '28px',
             fontWeight: '700',
             color: 'var(--text-primary)',
             marginBottom: '48px',
+            letterSpacing: '-0.01em',
           }}>
             Built for everyone in open source
           </h2>
@@ -226,7 +267,7 @@ export default function LandingPage() {
             ].map((persona) => (
               <div key={persona.name} style={{
                 backgroundColor: 'var(--bg-elevated)',
-                border: '1px solid var(--border-default)',
+                border: '1px solid var(--border-subtle)',
                 borderTop: `3px solid ${persona.color}`,
                 borderRadius: 'var(--radius-lg)',
                 padding: '28px 24px',
@@ -273,12 +314,12 @@ export default function LandingPage() {
       {/* FOOTER CTA */}
       <div style={{
         backgroundColor: 'var(--bg-base)',
-        borderTop: '1px solid var(--border-default)',
-        padding: '80px 20px',
+        borderTop: '1px solid var(--border-subtle)',
+        padding: '80px 40px',
         textAlign: 'center',
       }}>
         <h2 style={{
-          fontSize: '32px',
+          fontSize: '28px',
           fontWeight: '700',
           color: 'var(--text-primary)',
           marginBottom: '16px',
@@ -308,8 +349,8 @@ export default function LandingPage() {
       {/* FOOTER */}
       <div style={{
         backgroundColor: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border-default)',
-        padding: '24px 20px',
+        borderTop: '1px solid var(--border-subtle)',
+        padding: '24px 40px',
         textAlign: 'center',
       }}>
         <div style={{

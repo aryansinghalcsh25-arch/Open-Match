@@ -1,4 +1,5 @@
 // A card showing a single project with match score, skills, and a view button
+// Locked cards (minTrustLevel > current user level) are visually quieter/collapsed
 
 import { useNavigate } from 'react-router-dom'
 import MatchScoreRing from './MatchScoreRing'
@@ -11,17 +12,71 @@ interface Props {
   matchScore: number     // 0-100
   minTrustLevel: number  // 0-4
   openIssues: number
+  isLocked?: boolean     // if true, card renders collapsed/quieter
 }
 
-export default function ProjectCard({ id, name, description, skills, matchScore, minTrustLevel, openIssues }: Props) {
+export default function ProjectCard({ id, name, description, skills, matchScore, minTrustLevel, openIssues, isLocked = false }: Props) {
   const navigate = useNavigate()
 
-  // Only show first 4 skills, rest shown as "+N more"
   const visibleSkills = skills.slice(0, 4)
   const extraSkills = skills.length - visibleSkills.length
 
   const isHighMatch = matchScore > 70
 
+  if (isLocked) {
+    // Locked cards — visually quieter, collapsed, shows less info
+    return (
+      <div
+        style={{
+          backgroundColor: 'var(--bg-surface)',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: 'var(--radius-lg)',
+          padding: '16px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          opacity: 0.55,
+          cursor: 'not-allowed',
+          filter: 'grayscale(0.6)',
+        }}
+      >
+        {/* Lock icon */}
+        <div style={{
+          color: 'var(--text-tertiary)',
+          fontSize: '18px',
+          flexShrink: 0,
+        }}>
+          🔒
+        </div>
+
+        {/* Project name + trust level requirement */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h3 style={{
+            color: 'var(--text-primary)',
+            fontFamily: 'var(--font-display)',
+            fontSize: '14px',
+            fontWeight: 500,
+            margin: 0,
+          }}>
+            {name}
+          </h3>
+          <p style={{
+            color: 'var(--text-tertiary)',
+            fontFamily: 'var(--font-display)',
+            fontSize: '11px',
+            margin: '2px 0 0 0',
+          }}>
+            Trust Level {minTrustLevel}+ required
+          </p>
+        </div>
+
+        {/* Match score — inline */}
+        <MatchScoreRing score={matchScore} size="sm" />
+      </div>
+    )
+  }
+
+  // Eligible card — full detail
   return (
     <div
       style={{
@@ -32,7 +87,6 @@ export default function ProjectCard({ id, name, description, skills, matchScore,
         display: 'flex',
         flexDirection: 'column',
         gap: '12px',
-        // High match projects get a teal left border
         borderLeft: isHighMatch ? '3px solid var(--accent-primary)' : '1px solid var(--border-subtle)',
         cursor: 'pointer',
         transition: 'border-color 150ms, box-shadow 150ms'
@@ -46,8 +100,7 @@ export default function ProjectCard({ id, name, description, skills, matchScore,
         ;(e.currentTarget as HTMLDivElement).style.borderColor = isHighMatch ? 'var(--accent-primary)' : 'var(--border-subtle)'
       }}
     >
-
-      {/* TOP ROW — project name + match score ring */}
+      {/* TOP ROW — project name + match score */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <h3 style={{
           color: 'var(--text-primary)',
@@ -108,7 +161,7 @@ export default function ProjectCard({ id, name, description, skills, matchScore,
         )}
       </div>
 
-      {/* BOTTOM ROW — trust level + open issues + view button */}
+      {/* BOTTOM ROW — open issues + view button */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -122,11 +175,16 @@ export default function ProjectCard({ id, name, description, skills, matchScore,
           display: 'flex',
           gap: '12px'
         }}>
-          <span>🔓 Level {minTrustLevel}+ required</span>
+          {/* Eligible badge instead of lock note */}
+          <span style={{
+            color: 'var(--state-success)',
+            fontWeight: 600,
+          }}>
+            ✓ Eligible
+          </span>
           <span>{openIssues} open issues</span>
         </div>
 
-        {/* View button */}
         <button
           onClick={() => navigate(`/projects/${id}`)}
           style={{
@@ -144,7 +202,6 @@ export default function ProjectCard({ id, name, description, skills, matchScore,
           View →
         </button>
       </div>
-
     </div>
   )
 }
